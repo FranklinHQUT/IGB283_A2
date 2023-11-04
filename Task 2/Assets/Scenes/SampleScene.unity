@@ -403,8 +403,8 @@ MonoBehaviour:
   child: {fileID: 511516067}
   control: {fileID: 1518650102}
   parent: {fileID: 2045639577}
-  jointLocation: {x: 1.5, y: 2.25, z: 1}
-  jointOffset: {x: 0, y: -0.25, z: 1}
+  jointLocation: {x: 1.5, y: 2.5, z: 1}
+  jointOffset: {x: 0, y: 0, z: 1}
   angle: 0
   lastAngle: 0
   limbVertexLocations:
@@ -422,6 +422,8 @@ MonoBehaviour:
   nodAngle: 0.01
   HeadingPosNum: 0
   childHeading: 0
+  offset: {x: 0, y: 0, z: 0}
+  pointBeingCompared: {x: 0, y: 0, z: 0}
 --- !u!4 &363183683
 Transform:
   m_ObjectHideFlags: 0
@@ -613,6 +615,8 @@ MonoBehaviour:
   nodAngle: 0
   HeadingPosNum: 0
   childHeading: 0
+  offset: {x: 0, y: 0, z: 0}
+  pointBeingCompared: {x: 0, y: 0, z: 0}
 --- !u!4 &415829148
 Transform:
   m_ObjectHideFlags: 0
@@ -700,6 +704,8 @@ MonoBehaviour:
   nodAngle: 0
   HeadingPosNum: 0
   childHeading: 0
+  offset: {x: 0, y: 0, z: 0}
+  pointBeingCompared: {x: 0, y: 0, z: 0}
 --- !u!4 &511516069
 Transform:
   m_ObjectHideFlags: 0
@@ -2279,6 +2285,8 @@ MonoBehaviour:
   nodAngle: 0
   HeadingPosNum: 0
   childHeading: 0
+  offset: {x: 0, y: 0, z: 0}
+  pointBeingCompared: {x: 0, y: 0, z: 0}
 --- !u!4 &1665777668
 Transform:
   m_ObjectHideFlags: 0
@@ -2801,6 +2809,8 @@ MonoBehaviour:
   nodAngle: 0
   HeadingPosNum: 0
   childHeading: 0
+  offset: {x: 0, y: 0, z: 0}
+  pointBeingCompared: {x: 0, y: 0, z: 0}
 --- !u!4 &2045639579
 Transform:
   m_ObjectHideFlags: 0

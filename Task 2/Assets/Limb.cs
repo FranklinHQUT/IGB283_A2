@@ -20,6 +20,8 @@ public class Limb : MonoBehaviour
     public float nodAngle;
     public int HeadingPosNum;
     public float childHeading;
+    public Vector3 offset;
+    public Vector3 pointBeingCompared;
 
     // This will run before Start
     void Awake()
@@ -32,7 +34,6 @@ public class Limb : MonoBehaviour
     {
         // Move the child to the joint location
         if (child != null) {
-            Debug.Log(child.GetComponent<Limb>());
             child.GetComponent<Limb>().MoveByOffset(jointOffset);
         }
     }
@@ -40,12 +41,16 @@ public class Limb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //position secitions of the limb and rotate them around joint point if angle != null
+        //get heading and last angle values
         lastAngle = angle;
         if (parent != null)
         {
-            childHeading = angleFromXaxis(parent.GetComponent<Limb>().jointLocation, mesh.vertices[HeadingPosNum]);
+            pointBeingCompared = mesh.vertices[HeadingPosNum];
+            childHeading = angleFromXaxis(parent.GetComponent<Limb>().jointLocation, pointBeingCompared);
         }
+
+        //position secitions of the limb and rotate them around joint point if angle != null
+
         if (control != null)
         {
             angle = control.GetComponent<Slider>().value;
@@ -59,10 +64,17 @@ public class Limb : MonoBehaviour
         // nodding
         if (isNodding) { Nod(); }
 
-        // moving left to right
-        if (jointLocation.x >= 20) { MoveByOffset(Vector3.right); }
-        if (jointLocation.x < -20) { MoveByOffset(Vector3.left); }
-        else { MoveByOffset(Vector3.left); }
+        //movement left and right
+        if (Input.GetKeyDown(KeyCode.RightArrow)) { offset.x = 0.05f; }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) { offset.x = -0.05f; }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { offset.x = 0.0f; }
+        if (parent == null)
+        {
+            
+            MoveByOffset(offset);
+        }
+        
+
 
         // Recalculate the bounds of the mesh
         mesh.RecalculateBounds();
