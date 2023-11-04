@@ -59,6 +59,7 @@
     <Compile Include="Assets\Matrix3x3.cs" />
     <Compile Include="Assets\DrawLimbs.cs" />
     <Compile Include="Assets\IGB283Transform.cs" />
+    <Compile Include="Assets\Movement.cs" />
     <Compile Include="Assets\Limb.cs" />
   </ItemGroup>
   <ItemGroup>

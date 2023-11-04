@@ -7,6 +7,7 @@ public class Limb : MonoBehaviour
 { 
     public GameObject child;
     public GameObject control;
+    public GameObject parent;
     public Vector3 jointLocation;
     public Vector3 jointOffset;
     public float angle;
@@ -15,6 +16,10 @@ public class Limb : MonoBehaviour
     public Mesh mesh;
     public Material material;
     public int[] Vertexorder;
+    public bool isNodding;
+    public float nodAngle;
+    public int HeadingPosNum;
+    public float childHeading;
     private void DrawLimb()
     {
         ///Create the mesh--------------------------------------------------------------
@@ -42,7 +47,6 @@ public class Limb : MonoBehaviour
 
         // Set vertex indicies
         mesh.triangles = Vertexorder;
-
     }
 
     public void MoveByOffset(Vector3 offset)
@@ -99,7 +103,17 @@ public class Limb : MonoBehaviour
 
         }
     }
-
+    public static float angleFromXaxis(Vector3 rotationPoint, Vector3 point)
+    {
+        Vector3 direction = point - rotationPoint;
+        float angleFromX = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (angleFromX < 0)
+        {
+            angleFromX += 360;
+        }
+        return angleFromX;
+    }
+    
 
     void Start () {
         // Move the child to the joint location
@@ -112,7 +126,12 @@ public class Limb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //position secitions of the limb and rotate them around joint point if angle != null
         lastAngle = angle;
+        if (parent != null)
+        {
+            childHeading = angleFromXaxis(parent.GetComponent<Limb>().jointLocation, mesh.vertices[HeadingPosNum]);
+        }
         if (control != null)
         {
             angle = control.GetComponent<Slider>().value;
@@ -120,6 +139,12 @@ public class Limb : MonoBehaviour
         if (child != null)
         {
             child.GetComponent<Limb>().RotateAroundPoint(jointLocation, angle, lastAngle);
+        }
+        if (isNodding)
+        {
+            if (childHeading > 30.0f && childHeading < 330.0f && nodAngle <= 0f) { nodAngle = 0.01f; }
+            if (childHeading > 30.0f && childHeading < 330.0f && nodAngle > 0f) { nodAngle = -0.01f; }
+            child.GetComponent<Limb>().RotateAroundPoint(jointLocation, nodAngle, lastAngle);
         }
         // Recalculate the bounds of the mesh
         mesh.RecalculateBounds();

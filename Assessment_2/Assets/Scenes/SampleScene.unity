@@ -402,6 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 511516067}
   control: {fileID: 1518650102}
+  parent: {fileID: 0}
   jointLocation: {x: 1.5, y: 2.25, z: 1}
   jointOffset: {x: 0, y: -0.25, z: 1}
   angle: 0
@@ -417,6 +418,10 @@ MonoBehaviour:
   mesh: {fileID: 0}
   material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   Vertexorder: 000000000100000002000000020000000000000003000000030000000200000004000000040000000300000005000000050000000600000004000000
+  isNodding: 0
+  nodAngle: 0
+  HeadingPosNum: 0
+  childHeading: 0
 --- !u!4 &363183683
 Transform:
   m_ObjectHideFlags: 0
@@ -591,6 +596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 2045639577}
   control: {fileID: 703874295}
+  parent: {fileID: 0}
   jointLocation: {x: 0.25, y: 0, z: 1}
   jointOffset: {x: 0, y: 0, z: 1}
   angle: 0
@@ -603,6 +609,10 @@ MonoBehaviour:
   mesh: {fileID: 0}
   material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   Vertexorder: 000000000100000002000000020000000300000000000000
+  isNodding: 0
+  nodAngle: 0
+  HeadingPosNum: 0
+  childHeading: 0
 --- !u!4 &415829148
 Transform:
   m_ObjectHideFlags: 0
@@ -649,6 +659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 0}
   control: {fileID: 0}
+  parent: {fileID: 363183681}
   jointLocation: {x: 0, y: 0, z: 0}
   jointOffset: {x: 0, y: 0, z: 0}
   angle: 0
@@ -685,6 +696,10 @@ MonoBehaviour:
   mesh: {fileID: 0}
   material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   Vertexorder: 000000000100000003000000030000000200000001000000000000000400000003000000030000000500000004000000050000000600000008000000060000000e00000007000000070000000b0000000900000009000000080000000a0000000a0000000c0000000b0000000b0000000d0000000c0000000e0000000f000000100000001000000011000000120000000f0000000d000000130000001400000015000000160000000d0000000f0000000e00000013000000140000001800000016000000190000001a0000001a0000001b000000160000001400000017000000160000001b0000001700000004000000040000000c00000017000000
+  isNodding: 0
+  nodAngle: 0
+  HeadingPosNum: 0
+  childHeading: 0
 --- !u!4 &511516069
 Transform:
   m_ObjectHideFlags: 0
@@ -2199,6 +2214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 415829146}
   control: {fileID: 415616285}
+  parent: {fileID: 0}
   jointLocation: {x: 0.25, y: -2, z: 1}
   jointOffset: {x: 0, y: 0, z: 0}
   angle: 0
@@ -2222,6 +2238,10 @@ MonoBehaviour:
   mesh: {fileID: 0}
   material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   Vertexorder: 000000000300000005000000010000000200000003000000030000000400000005000000060000000700000008000000090000000a0000000400000009000000080000000700000007000000090000000a0000000a000000070000000b0000000b0000000c0000000a0000000b0000000c0000000d0000000d0000000e0000000c000000
+  isNodding: 0
+  nodAngle: 0
+  HeadingPosNum: 0
+  childHeading: 0
 --- !u!4 &1665777668
 Transform:
   m_ObjectHideFlags: 0
@@ -2727,6 +2747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 363183681}
   control: {fileID: 891306122}
+  parent: {fileID: 0}
   jointLocation: {x: 0.5, y: 2.625, z: 1}
   jointOffset: {x: 0, y: 0, z: 1}
   angle: 0
@@ -2739,6 +2760,10 @@ MonoBehaviour:
   mesh: {fileID: 0}
   material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   Vertexorder: 000000000100000002000000020000000300000000000000
+  isNodding: 0
+  nodAngle: 0
+  HeadingPosNum: 0
+  childHeading: 0
 --- !u!4 &2045639579
 Transform:
   m_ObjectHideFlags: 0
