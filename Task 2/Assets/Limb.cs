@@ -65,19 +65,50 @@ public class Limb : MonoBehaviour
         if (isNodding) { Nod(); }
 
         //movement left and right
-        if (Input.GetKeyDown(KeyCode.RightArrow)) { offset.x = 0.05f; }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) { offset.x = -0.05f; }
-        if (Input.GetKeyDown(KeyCode.DownArrow)) { offset.x = 0.0f; }
+        if (Input.GetKeyDown(KeyCode.D)) { offset.x = 0.05f; }
+        if (Input.GetKeyDown(KeyCode.A)) { offset.x = -0.05f; }
+        if (Input.GetKeyDown(KeyCode.S)) { offset.x = 0.0f; }
         if (parent == null)
         {
-            
+            if (jointLocation.x > 9 || jointLocation.x < -9)
+            {
+                offset.x = -offset.x;
+            }
             MoveByOffset(offset);
+
+            // // flipping
+            // if (offset.x < 0)
+            // {
+            //     // flip in y axis
+            //     Matrix3x3 scalingMat = IGB283Transform.Scale(-1f, 1);
+            //     Scaling(scalingMat);
+            // }
+            // else if (offset.x > 0)
+            // {
+            //     Matrix3x3 scalingMat = IGB283Transform.Scale(-1f, 1);
+            //     Scaling(scalingMat);
+            // }
         }
+
+        if (Input.GetKeyDown(KeyCode.W) && (parent == null)) { Jump(); }
         
-
-
         // Recalculate the bounds of the mesh
         mesh.RecalculateBounds();
+    }
+
+    void Jump()
+    {
+        offset.y = 0.05f;
+
+        if (jointLocation.y > 5 || jointLocation.y < -2)
+        {
+            offset.y = -offset.y;
+        }
+        if (jointLocation.y < -2)
+        {
+            offset.y = 0;
+        }
+        MoveByOffset(offset);
     }
 
     private void DrawLimb()
@@ -158,6 +189,7 @@ public class Limb : MonoBehaviour
 
         }
     }
+
     public static float angleFromXaxis(Vector3 rotationPoint, Vector3 point)
     {
         Vector3 direction = point - rotationPoint;
@@ -167,6 +199,26 @@ public class Limb : MonoBehaviour
             angleFromX += 360;
         }
         return angleFromX;
+    }
+
+    void Scaling(Matrix3x3 scalingMat)
+    {
+        // Apply the scaling matrix to the limb's vertices
+        Vector3[] vertices = mesh.vertices;
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] = scalingMat.MultiplyPoint(vertices[i]);
+        }
+        mesh.vertices = vertices;
+
+        // Apply the scaling matrix to the joint location
+        jointLocation = scalingMat.MultiplyPoint(jointLocation);
+
+        // Apply the scaling matrix to the children
+        if (child != null)
+        {
+            child.GetComponent<Limb>().Scaling(scalingMat);
+        }
     }
 
     void Nod()

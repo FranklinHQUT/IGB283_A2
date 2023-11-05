@@ -28,13 +28,13 @@ public class IGB283Transform
         return matrix;
     }
 
-    public static Matrix3x3 Scale(float scale)
+    public static Matrix3x3 Scale(float scaleX, float scaleY)
 	{
 		Matrix3x3 matrix = new Matrix3x3();
 
 		//scaledMatrix = [scalex 0, 0 scaley]
-		matrix.SetRow(0, new Vector3(scale, 0.0f, 0.0f));
-		matrix.SetRow(1, new Vector3(0.0f, scale, 0.0f));
+		matrix.SetRow(0, new Vector3(scaleX, 0.0f, 0.0f));
+		matrix.SetRow(1, new Vector3(0.0f, scaleY, 0.0f));
 		matrix.SetRow(2, new Vector3(0.0f, 0.0f, 1.0f));
 
 		return matrix;
