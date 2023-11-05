@@ -22,6 +22,10 @@ public class Limb : MonoBehaviour
     public float childHeading;
     public Vector3 offset;
     public Vector3 pointBeingCompared;
+    public bool jumpPressed;
+    public bool wasLastDirectionRight;
+    public GameObject prefabForCollision;
+    public int NumOfCollisions;
 
     // This will run before Start
     void Awake()
@@ -36,6 +40,7 @@ public class Limb : MonoBehaviour
         if (child != null) {
             child.GetComponent<Limb>().MoveByOffset(jointOffset);
         }
+        offset.x = 0.05f;
     }
 
     // Update is called once per frame
@@ -65,50 +70,96 @@ public class Limb : MonoBehaviour
         if (isNodding) { Nod(); }
 
         //movement left and right
-        if (Input.GetKeyDown(KeyCode.D)) { offset.x = 0.05f; }
-        if (Input.GetKeyDown(KeyCode.A)) { offset.x = -0.05f; }
-        if (Input.GetKeyDown(KeyCode.S)) { offset.x = 0.0f; }
+        if (Input.GetKey(KeyCode.D)) { offset.x = 0.05f; }
+        if (Input.GetKey(KeyCode.A)) { offset.x = -0.05f; }
+        if (Input.GetKey(KeyCode.S)) { offset.x = 0.0f; }
         if (parent == null)
         {
-            if (jointLocation.x > 9 || jointLocation.x < -9)
+            if (jointLocation.x > 20)
             {
                 offset.x = -offset.x;
+                ChangeDirectionSpawn();
+                wasLastDirectionRight = false;
+            }
+            if (jointLocation.x < - 20)
+            {
+                offset.x = -offset.x;
+                wasLastDirectionRight = true;
             }
             MoveByOffset(offset);
-
-            // // flipping
-            // if (offset.x < 0)
-            // {
-            //     // flip in y axis
-            //     Matrix3x3 scalingMat = IGB283Transform.Scale(-1f, 1);
-            //     Scaling(scalingMat);
-            // }
-            // else if (offset.x > 0)
-            // {
-            //     Matrix3x3 scalingMat = IGB283Transform.Scale(-1f, 1);
-            //     Scaling(scalingMat);
-            // }
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && (parent == null)) { Jump(); }
-        
+        if (offset.x > 0) { wasLastDirectionRight = true; } else { wasLastDirectionRight = false; }
+
+        Jump();      
+
         // Recalculate the bounds of the mesh
         mesh.RecalculateBounds();
     }
 
     void Jump()
     {
-        offset.y = 0.05f;
+        if (Input.GetKey(KeyCode.W)) // Check if "W" is pressed and it's the top parent
+        {   
+            if (parent == null)
+            {
+                if (jointLocation.y <= -2) // Check if the limb is on the floor
+                    {
+                        offset.y = 0.05f; // If on the floor, go up
+                    }
+            }
+        }
+        if ((offset.x == 0) && (Input.GetKey(KeyCode.S)))
+        {
+            if (parent == null)
+            {
+                if (jointLocation.y <= -2)
+                {
+                    offset.y = 0.05f;
+                    ChangeDirectionSpawn();
+                    if (wasLastDirectionRight)
+                    {
+                        offset.x = 0.05f;
+                    }
+                    else
+                    {
+                        offset.x = -0.05f;
+                    }
+                }
+            }
+        }
+        else if (offset.y > 0) // Check if the limb is going up
+        {
+            if (jointLocation.y > 4) { offset.y = 0.04f; }
+            if (jointLocation.y >= 6) // If it's at the top, start going down
+            {
+                ChangeDirectionSpawn();
+                offset.y = -0.05f;
+            }
+        }
+        else if (offset.y < 0) // Check if the limb is going down
+        {
+            if (jointLocation.y <= -2) // If it's at the bottom, stop going down
+            {
+                ChangeDirectionSpawn();
+                offset.y = 0f;
+                offset.x = 0f;
+            }
+        }
 
-        if (jointLocation.y > 5 || jointLocation.y < -2)
+        if (parent == null)
         {
-            offset.y = -offset.y;
+            MoveByOffset(offset);
         }
-        if (jointLocation.y < -2)
+    }
+
+    public void ChangeDirectionSpawn()
+    {
+        if (NumOfCollisions > 0)
         {
-            offset.y = 0;
+            Instantiate(prefabForCollision, new Vector3(jointLocation.x, jointLocation.y, jointLocation.z), Quaternion.identity);
+            NumOfCollisions -= 1;
         }
-        MoveByOffset(offset);
     }
 
     private void DrawLimb()
@@ -186,7 +237,6 @@ public class Limb : MonoBehaviour
         if (child != null)
         {
             child.GetComponent<Limb>().RotateAroundPoint(point, angle, lastAngle);
-
         }
     }
 
@@ -223,8 +273,20 @@ public class Limb : MonoBehaviour
 
     void Nod()
     {
-        if (childHeading < 120.0f) { nodAngle = -nodAngle; }
-        if (childHeading > 60.0f) { nodAngle = -nodAngle; }
+        // Define the nodding angle range
+        float minNodAngle = 60.0f;
+        float maxNodAngle = 120.0f;
+
+        if (childHeading < minNodAngle)
+        {
+            nodAngle = Mathf.Abs(nodAngle); // Ensure a positive nod angle
+        }
+        else if (childHeading > maxNodAngle)
+        {
+            nodAngle = -Mathf.Abs(nodAngle); // Ensure a negative nod angle
+        }
+
         child.GetComponent<Limb>().RotateAroundPoint(jointLocation, nodAngle, lastAngle);
     }
+
 }
